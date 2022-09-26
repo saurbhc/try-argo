@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: try-steps-
+spec:
+  entrypoint: main
+  templates:
+  - name: main
+    steps:
+    - - name: flip-coin
+        template: flip-coin
+    - - name: heads
+        template: heads
+        when: "{{steps.flip-coin.outputs.result}} == heads"
+      - name: tails
+        template: tails
+        when: "{{steps.flip-coin.outputs.result}} == tails"
+  - name: flip-coin
+    script:
+      image: python:alpine3.6
+      command: [python]
+      source: |
+        import random
+        print("heads" if random.randint(0, 1) == 0 else "tails")
+  - name: heads
+    container:
+      image: python:alpine3.6
+      command: [sh, -c]
+      args: [echo "\"it was heads\""]
+  - name: tails
+    container:
+      image: python:alpine3.6
+      command: [sh, -c]
+      args: [echo "\"it was tails\""]

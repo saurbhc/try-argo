@@ -1,0 +1,10 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: try-delay-
+spec:
+  entrypoint: main
+  templates:
+  - name: main
+    suspend:
+      duration: "20s"

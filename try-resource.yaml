@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-  generateName: hello-from-cli-2-
+  generateName: try-resource-
 spec:
   entrypoint: k8s-owner-reference
   templates:
